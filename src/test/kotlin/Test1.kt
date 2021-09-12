@@ -1,6 +1,6 @@
 import kotlin.test.*
 
-internal class Test1 {
+internal class TestLCS {
 
     @Test
     fun smallTestLCS() {
@@ -20,6 +20,12 @@ internal class Test1 {
         assertEquals(listOf("a", "d"),
             lcs(listOf("a", "b", "c", "d", "e"),
                 listOf("x", "a", "y", "d", "z")))
+        assertEquals(listOf("a", "b", "c"),
+            lcs(listOf("a", "b", "c", "d", "e"),
+                listOf("x", "y", "a", "b", "c")))
+        assertEquals(listOf("c", "d", "e"),
+            lcs(listOf("a", "b", "c", "d", "e"),
+                listOf("c", "d", "e", "x", "y")))
     }
 
     @Test

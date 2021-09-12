@@ -3,7 +3,6 @@ import java.io.PrintWriter
 import kotlin.math.max
 
 
-
 fun printTable(m: Array<Array<Int>>) {
     print("     ")
     for (i in m[0].indices) print("$i ")
