@@ -3,6 +3,9 @@ import java.io.PrintWriter
 import kotlin.math.max
 
 
+data class Line (val symbol : Char, val string : String)
+
+
 fun printTable(m: Array<Array<Int>>) {
     print("     ")
     for (i in m[0].indices) print("$i ")
@@ -61,8 +64,49 @@ fun lcs(text1: List<String>, text2: List<String>) : List<String> {
 
 
 // diff function creates the edit script for two given text using LCS function
-fun diff(originalText: List<String>, newText: List<String>): List<String> {
-    return lcs(originalText, newText)
+fun diff(originalText: List<String>, newText: List<String>): List<Line> {
+    val mutualText = lcs(originalText, newText)
+    val resLines : ArrayList<Line> = arrayListOf()
+    // ind1 - current position in original Text, ind2 -  in newText, ind - in mutualText
+    var ind1 = 0
+    var ind2 = 0
+    var ind = 0
+    // merging into resText
+    while (ind1 < originalText.size || ind2 < newText.size) {
+        if (ind < mutualText.size) {
+            if (originalText[ind1] == newText[ind2] && originalText[ind1] == mutualText[ind]) {
+                resLines.add(Line(' ', mutualText[ind]))
+                ind1++
+                ind2++
+                ind++
+            }
+            else if (originalText[ind1] == mutualText[ind]) {
+                resLines.add(Line('+', newText[ind2]))
+                ind2++
+            } else {
+                resLines.add(Line('-', originalText[ind1]))
+                ind1++
+            }
+        }
+        else {
+            while (ind1 < originalText.size) {
+                resLines.add(Line('-', originalText[ind1]))
+                ind1++
+            }
+            while (ind2 < newText.size) {
+                resLines.add(Line('+', newText[ind2]))
+                ind2++
+            }
+        }
+    }
+    return resLines.toList()
+}
+
+
+fun printLines(fileName : String, diffText : List<Line>) {
+    val resText = PrintWriter(fileName)
+    for (line in diffText) resText.println(line)
+    resText.close()
 }
 
 
@@ -73,12 +117,10 @@ fun main(args: Array<String>) {
     val newText = File("src/main/kotlin/newText.txt").readLines()
 
     // using diff function
-    val diffText = diff(originalText, newText)
+    val diffLines = diff(originalText, newText)
 
     // output data: file resText.txt
-    val resText = PrintWriter("src/main/kotlin/resText.txt")
-    for (line in diffText) resText.println(line)
-    resText.close()
+    printLines("src/main/kotlin/resText.txt", diffLines)
 
 }
 
