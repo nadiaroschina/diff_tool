@@ -3,9 +3,14 @@ import java.io.PrintWriter
 import kotlin.math.max
 
 
-data class Line (val symbol : Char, val string : String)
+data class Line (val symbol : Char, val string : String) {
+    override fun toString(): String {
+        return ("$symbol $string")
+    }
+}
 
 
+// auxiliary function
 fun printTable(m: Array<Array<Int>>) {
     print("     ")
     for (i in m[0].indices) print("$i ")
@@ -75,7 +80,7 @@ fun diff(originalText: List<String>, newText: List<String>): List<Line> {
     while (ind1 < originalText.size || ind2 < newText.size) {
         if (ind < mutualText.size) {
             if (originalText[ind1] == newText[ind2] && originalText[ind1] == mutualText[ind]) {
-                resLines.add(Line(' ', mutualText[ind]))
+                // resLines.add(Line(' ', mutualText[ind]))
                 ind1++
                 ind2++
                 ind++
