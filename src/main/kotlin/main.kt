@@ -1,6 +1,7 @@
 import java.io.File
 import java.io.PrintWriter
 import kotlin.math.max
+import kotlin.system.exitProcess
 
 
 data class Line (val symbol : Char, val string : String) {
@@ -117,15 +118,56 @@ fun printLines(fileName : String, diffText : List<Line>) {
 
 fun main(args: Array<String>) {
 
-    // input data: files originalText.txt and newText.txt
-    val originalText = File("src/main/kotlin/originalText.txt").readLines()
-    val newText = File("src/main/kotlin/newText.txt").readLines()
+    // reading input data: file paths
+    // default files would be originalText.txt and newText.txt
+
+    println("Enter original file path. Press enter to use default file name")
+    val input1 = readLine()
+    val path1 = if (input1 == "") {
+        "src/main/kotlin/originalText.txt"
+    } else {
+        input1.toString()
+    }
+
+    val originalText = try {
+        File(path1).readLines()
+    } catch (e : Exception) {
+        println("Invalid file name")
+        exitProcess(1)
+    }
+
+
+    println("Enter new file path. Press enter to use default file name")
+    val input2 = readLine()
+    val path2 = if (input2 == "") {
+        "src/main/kotlin/newText.txt"
+    } else {
+        input2.toString()
+    }
+
+    val newText = try {
+        File(path2).readLines()
+    } catch (e : Exception) {
+        println("Invalid file name")
+        exitProcess(1)
+    }
 
     // using diff function
     val diffLines = diff(originalText, newText)
 
-    // output data: file resText.txt
-    printLines("src/main/kotlin/resText.txt", diffLines)
+    // output data
+    // default file will be resText.txt
+
+    println("Enter path to write the edit script. Press enter to use default file name")
+    val input3 = readLine()
+    val path3 = if (input3 == "") {
+        "src/main/kotlin/resText.txt"
+    } else {
+        input3.toString()
+    }
+
+    println("Process successfully finished. Result is written in file $path3")
+    printLines(path3, diffLines)
 
 }
 
