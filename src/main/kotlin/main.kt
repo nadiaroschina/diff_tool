@@ -113,11 +113,9 @@ fun diff(originalText: List<String>, newText: List<String>): List<Line> {
     return resLines.toList()
 }
 
-// prints given text to the file
-fun printLines(fileName: String, diffText: List<Line>) {
-    val resText = PrintWriter(fileName)
-    for (line in diffText) resText.println(line)
-    resText.close()
+// prints given text to the console
+fun printLines(diffText: List<Line>) {
+    for (line in diffText) println(line)
 }
 
 typealias inputTexts = Pair<List<String>, List<String>>
@@ -185,21 +183,7 @@ fun main(args: Array<String>) {
     val diffLines = diff(originalText, newText)
 
     // output data
-    // default file will be resText.txt
-
-    /*
-    println("Enter path to write the edit script. Press enter to use default file name")
-    val input3 = readLine()
-    val path3 = if (input3 == "") {
-        "src/main/kotlin/resText.txt"
-    } else {
-        input3.toString()
-    }
-    */
-
-    val path3 = "src/main/kotlin/resText.txt"
-    println("Process successfully finished. Result is written in file $path3")
-    printLines(path3, diffLines)
+    printLines(diffLines)
 
 }
 
