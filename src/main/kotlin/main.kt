@@ -35,6 +35,7 @@ fun printTable(m: Array<Array<Int>>) {
 
 
 // LCS function finds the largest common sequence of strings in two given texts
+// algorithm: https://en.wikipedia.org/wiki/Longest_common_subsequence_problem#Solution_for_two_sequences
 fun lcs(text1: List<String>, text2: List<String>): List<String> {
 
     // res[i][j] stores the length of LCS for the first i strings of text1 and first j strings of text2
@@ -112,49 +113,73 @@ fun diff(originalText: List<String>, newText: List<String>): List<Line> {
     return resLines.toList()
 }
 
-
+// prints given text to the file
 fun printLines(fileName: String, diffText: List<Line>) {
     val resText = PrintWriter(fileName)
     for (line in diffText) resText.println(line)
     resText.close()
 }
 
+typealias inputTexts = Pair<List<String>, List<String>>
+
+// ensures path is valid and reads the file
+fun pathToText(path: String): List<String> {
+    return try {
+        File(path).readLines()
+    } catch (e: Exception) {
+        println(e.message)
+        exitProcess(1)
+    }
+}
+
+// function reads input data: command line or file paths
+fun inputProcessing(args: Array<String>): inputTexts {
+    val text1: List<String>
+    val text2: List<String>
+    if (args.isNotEmpty()) {
+        try {
+            val path1 = args[0]
+            val path2 = args[1]
+            text1 = pathToText(path1)
+            text2 = pathToText(path2)
+        } catch (e: Exception) {
+            println("Invalid parameters of command line")
+            println(e.message)
+            exitProcess(1)
+        }
+    } else {
+
+        // for file input default files would be originalText.txt and newText.txt
+
+        println("Enter original file path. Press enter to use default file name")
+        val input1 = readLine()
+        val path1 = if (input1 == "") {
+            "src/main/kotlin/originalText.txt"
+        } else {
+            input1.toString()
+        }
+
+        text1 = pathToText(path1)
+
+        println("Enter new file path. Press enter to use default file name")
+        val input2 = readLine()
+        val path2 = if (input2 == "") {
+            "src/main/kotlin/newText.txt"
+        } else {
+            input2.toString()
+        }
+
+        text2 = pathToText(path2)
+
+    }
+    return Pair(text1, text2)
+}
+
 
 fun main(args: Array<String>) {
 
-    // reading input data: command line or file paths
-    // for file input default files would be originalText.txt and newText.txt
-
-    println("Enter original file path. Press enter to use default file name")
-    val input1 = readLine()
-    val path1 = if (input1 == "") {
-        "src/main/kotlin/originalText.txt"
-    } else {
-        input1.toString()
-    }
-
-    val originalText = try {
-        File(path1).readLines()
-    } catch (e: Exception) {
-        println("Invalid file name")
-        exitProcess(1)
-    }
-
-
-    println("Enter new file path. Press enter to use default file name")
-    val input2 = readLine()
-    val path2 = if (input2 == "") {
-        "src/main/kotlin/newText.txt"
-    } else {
-        input2.toString()
-    }
-
-    val newText = try {
-        File(path2).readLines()
-    } catch (e: Exception) {
-        println("Invalid file name")
-        exitProcess(1)
-    }
+    // processing input
+    val (originalText, newText) = inputProcessing(args)
 
     // using diff function
     val diffLines = diff(originalText, newText)
@@ -162,6 +187,7 @@ fun main(args: Array<String>) {
     // output data
     // default file will be resText.txt
 
+    /*
     println("Enter path to write the edit script. Press enter to use default file name")
     val input3 = readLine()
     val path3 = if (input3 == "") {
@@ -169,7 +195,9 @@ fun main(args: Array<String>) {
     } else {
         input3.toString()
     }
+    */
 
+    val path3 = "src/main/kotlin/resText.txt"
     println("Process successfully finished. Result is written in file $path3")
     printLines(path3, diffLines)
 
