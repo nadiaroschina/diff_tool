@@ -11,7 +11,7 @@
 Поддерживается ввод через аргументы командной строки:
 
 ```
-path1/file_name1.txt path2/file_name2.txt
+$ diff path1/file_name1.txt path2/file_name2.txt
 ```
 
 Или непосредственно через консоль:
@@ -22,8 +22,8 @@ Enter new file path. Press enter to use default file name
 path2/file_name2.txt
 ```
 
-При вводе с консоли значения по умолчанию будут `src/main/kotlin/originalText.txt` для исходного 
-и`src/main/kotlin/newText.txt` для нового файлов.
+При вводе с консоли значения по умолчанию будут `src/test/resources/firstText` для исходного 
+и`src/test/resources/secondText` для нового файлов.
 
 ### Выходные данные
 

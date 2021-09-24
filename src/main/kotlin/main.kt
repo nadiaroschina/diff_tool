@@ -147,12 +147,12 @@ fun inputProcessing(args: Array<String>): inputTexts {
         }
     } else {
 
-        // for file input default files would be originalText.txt and newText.txt
+        // for file input default files would be firstText.txt and secondText.txt from src/test/resources
 
         println("Enter original file path. Press enter to use default file name")
         val input1 = readLine()
         val path1 = if (input1 == "") {
-            "src/main/kotlin/originalText.txt"
+            "src/test/resources/firstText.txt"
         } else {
             input1.toString()
         }
@@ -162,7 +162,7 @@ fun inputProcessing(args: Array<String>): inputTexts {
         println("Enter new file path. Press enter to use default file name")
         val input2 = readLine()
         val path2 = if (input2 == "") {
-            "src/main/kotlin/newText.txt"
+            "src/test/resources/secondText.txt"
         } else {
             input2.toString()
         }
